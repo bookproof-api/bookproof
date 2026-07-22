@@ -1,0 +1,53 @@
+name: Request a sample quote
+description: Request one free, read-only Bookproof execution-quote sample for demand validation.
+title: "[Sample quote] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bookproof will return at most one public sample per independent requester. The sample is clearly labeled, is not counted as revenue, and never places an order.
+
+        Do not submit private keys, wallet seed phrases, API credentials, signatures, personal information, or any other secret.
+  - type: input
+    id: market
+    attributes:
+      label: Polymarket market URL or slug
+      description: A public Polymarket event/market URL or market slug.
+      placeholder: https://polymarket.com/event/...
+    validations:
+      required: true
+  - type: input
+    id: outcome
+    attributes:
+      label: Outcome
+      description: The exact public outcome label, such as Yes, No, Up, or Down.
+      placeholder: Yes
+    validations:
+      required: true
+  - type: input
+    id: budget
+    attributes:
+      label: Budget in USDC
+      description: The hypothetical all-in BUY budget to quote.
+      placeholder: "50"
+    validations:
+      required: true
+  - type: dropdown
+    id: scenario
+    attributes:
+      label: Scenario
+      description: Choose the execution decision you want the sample to illustrate.
+      options:
+        - BUY
+        - FOK
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety acknowledgement
+      options:
+        - label: I have not included a private key, seed phrase, API credential, signature, wallet secret, or personal information.
+          required: true
+        - label: I understand this is a public, read-only, one-off sample and not an order, execution promise, investment advice, or paid customer transaction.
+          required: true
