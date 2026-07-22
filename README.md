@@ -44,6 +44,27 @@ curl --get 'https://bookproof-api.sn95wjq846.chatgpt.site/api/v1/resolve-market'
 
 The documented example walks the visible asks for a 100 USDC all-in budget and reports 219.78022 shares, 0.445 VWAP, 2.17 USDC modeled fee and 348.84 bps price impact. These values are a dated example response, not a current quote; callers must request a fresh snapshot immediately before their own decision.
 
+## Real public order-book demo
+
+**Historical demo; not a live quote, customer test, paid call, or revenue.** A
+public Polymarket Gamma/CLOB snapshot recorded on `2026-06-16` shows why
+`budget / bestAsk` is not an execution quote:
+
+| BUY/FOK scenario | Result |
+| --- | ---: |
+| Budget | `500,000 USDC` |
+| Best ask | `0.995` |
+| Book-walk VWAP | `0.995315` |
+| Worst fill | `0.996` |
+| Fee | `0.00 USDC` (fees disabled in the snapshot) |
+| Visible depth | `20,358,472.91 shares` |
+| Decision at a `0.995` cap | **REJECT** |
+
+The first ask could not absorb the full budget. The quote crossed into `0.996`,
+so an FOK order capped at the displayed best ask must be rejected even though
+total depth was sufficient. See the [levels, provenance, calculation, and safety
+labels](./EXAMPLE_QUOTE.md).
+
 ## JavaScript (x402)
 
 ```js
