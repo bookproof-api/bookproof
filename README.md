@@ -4,6 +4,16 @@ Bookproof is a read-only pre-trade execution guard for Polymarket taker bots. It
 
 > Official Bookproof technical project. Public responses may be AI-assisted and are supervised by the project owner.
 
+## Request one free sample quote
+
+**[Request one free sample quote](https://github.com/bookproof-api/bookproof/issues/new?template=request-sample-quote.yml)**
+
+Give us one market URL, outcome, and a 50–500 USDC BUY/FOK budget. We’ll
+return one free sample showing VWAP, worst fill, fees, price impact, and whether
+the order should be accepted, resized, or rejected. No wallet credentials
+required. The sample is for evaluation only; continued automated calls use the
+paid API.
+
 ## What the paid calls add
 
 Polymarket's public APIs expose market metadata and raw order books. Bookproof packages the execution decision layer into stable JSON:
@@ -44,26 +54,38 @@ curl --get 'https://bookproof-api.sn95wjq846.chatgpt.site/api/v1/resolve-market'
 
 The documented example walks the visible asks for a 100 USDC all-in budget and reports 219.78022 shares, 0.445 VWAP, 2.17 USDC modeled fee and 348.84 bps price impact. These values are a dated example response, not a current quote; callers must request a fresh snapshot immediately before their own decision.
 
-## Real public order-book demo
+## 100 USDC historical execution demo
 
 **Historical demo; not a live quote, customer test, paid call, or revenue.** A
-public Polymarket Gamma/CLOB snapshot recorded on `2026-06-16` shows why
-`budget / bestAsk` is not an execution quote:
+fee-enabled public Polymarket order-book snapshot recorded on `2026-07-19`
+shows how a seemingly profitable small order can become too weak after fees and
+book walking:
 
 | BUY/FOK scenario | Result |
 | --- | ---: |
-| Budget | `500,000 USDC` |
-| Best ask | `0.995` |
-| Book-walk VWAP | `0.995315` |
-| Worst fill | `0.996` |
-| Fee | `0.00 USDC` (fees disabled in the snapshot) |
-| Visible depth | `20,358,472.91 shares` |
-| Decision at a `0.995` cap | **REJECT** |
+| Market / outcome | Spain vs. Argentina: Argentina O/U 1.5 / `Over` |
+| All-in budget | `100.00 USDC` |
+| Best ask | `0.280000` |
+| Book-walk VWAP | `0.288597` |
+| Worst fill | `0.290000` |
+| Modeled taker fee | `3.434642 USDC` |
+| Price impact vs. best ask | `307.04 bps` |
+| Strategy headline profit | `10.714286 USDC` |
+| Expected profit after execution cost | `3.726810 USDC` |
+| Decision with a 5% minimum after-cost return | **RESIZE** |
 
-The first ask could not absorb the full budget. The quote crossed into `0.996`,
-so an FOK order capped at the displayed best ask must be rejected even though
-total depth was sufficient. See the [levels, provenance, calculation, and safety
-labels](./EXAMPLE_QUOTE.md).
+The illustrative strategy input is a `0.31` fair probability; it is not a
+forecast or trading claim. The first ask level alone preserves a modeled
+`6.87%` after-cost return, while filling the entire budget falls to `3.73%`.
+See the [levels, fee formula, calculations, provenance, and resize result](./EXAMPLE_QUOTE_100_USDC.md).
+
+## Large-order stress test
+
+The earlier `500,000 USDC` example remains available only as a large-order
+stress test. Its recorded market had fees disabled, so it is not the primary
+small-bot sales example. The order must cross from `0.995` to `0.996` and is
+therefore rejected at a `0.995` FOK price cap. See the [stress-test levels and
+provenance](./EXAMPLE_QUOTE.md).
 
 ## JavaScript (x402)
 
