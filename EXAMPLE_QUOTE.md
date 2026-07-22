@@ -1,11 +1,14 @@
-# Historical public execution-quote demo
+# Historical large-order stress test
 
 > **Demo only — not a live quote, customer request, external test, paid call, or revenue.**
 > The snapshot below was recorded from Polymarket's public Gamma and CLOB APIs at
 > `2026-06-16T21:32:48.674Z`. It must not be used as a current trading input.
 
-This example shows why a bot cannot safely convert a displayed best ask directly
-into executable shares for a large immediate order.
+This example is retained only as a large-order stress test. It is not the
+primary Bookproof sales demo because its `500,000 USDC` budget is outside the
+50–500 USDC target-customer range and the recorded market had fees disabled.
+For the small-bot example, see the [100 USDC fee-enabled historical
+demo](./EXAMPLE_QUOTE_100_USDC.md).
 
 ## Scenario
 
