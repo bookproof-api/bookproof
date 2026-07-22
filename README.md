@@ -52,8 +52,6 @@ curl --get 'https://bookproof-api.sn95wjq846.chatgpt.site/api/v1/resolve-market'
 }
 ```
 
-The documented example walks the visible asks for a 100 USDC all-in budget and reports 219.78022 shares, 0.445 VWAP, 2.17 USDC modeled fee and 348.84 bps price impact. These values are a dated example response, not a current quote; callers must request a fresh snapshot immediately before their own decision.
-
 ## 100 USDC historical execution demo
 
 **Historical demo; not a live quote, customer test, paid call, or revenue.** A
